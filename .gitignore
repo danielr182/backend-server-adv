@@ -1,4 +1,5 @@
 node_modules/
 .history/
+.env
 google-signin-demo/node_modules/
 google-signin-demo/.history/
