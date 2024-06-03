@@ -1,4 +1,5 @@
 node_modules/
+uploads/
 .history/
 .env
 google-signin-demo/node_modules/
