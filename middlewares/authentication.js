@@ -21,7 +21,7 @@ const verifyJWT = (req, res, next) => {
     return res.status(401).json({
       ok: false,
       message: 'Incorrect token.',
-      errors: err,
+      errors: err.toString(),
     });
   }
   next();

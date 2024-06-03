@@ -26,10 +26,11 @@ const createHospital = async (req, res) => {
       hospital,
     });
   } catch (err) {
+    console.log(err);
     return res.status(400).json({
       ok: false,
       message: 'Error creating hospital.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };
@@ -52,10 +53,11 @@ const deleteHospital = async (req, res) => {
       message: 'Hospital successfully deleted',
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       ok: false,
       message: 'Error eliminating the hospital.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };
@@ -76,10 +78,11 @@ const getHospitals = async (req, res) => {
       total: counting,
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       ok: false,
       message: 'Error loading hospitals.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };
@@ -108,10 +111,11 @@ const updateHospital = async (req, res) => {
       hospital: updatedHospital,
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       ok: false,
       message: 'Error updating the hospital.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };

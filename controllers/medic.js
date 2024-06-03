@@ -28,10 +28,11 @@ const createMedic = async (req, res) => {
       medic,
     });
   } catch (err) {
+    console.log(err);
     return res.status(400).json({
       ok: false,
       message: 'Error creating a medic.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };
@@ -54,10 +55,11 @@ const deleteMedic = async (req, res) => {
       message: 'Medic successfully deleted',
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       ok: false,
       message: 'Error eliminating the medic.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };
@@ -78,10 +80,11 @@ const getMedics = async (req, res) => {
       total: counting,
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       ok: false,
       message: 'Error loading medics.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };
@@ -119,10 +122,11 @@ const updateMedic = async (req, res) => {
       medic: updatedMedic,
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       ok: false,
       message: 'Error updating the medic.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };

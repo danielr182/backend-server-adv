@@ -6,13 +6,9 @@ const getImage = (req, res) => {
   const img = req.params.img;
 
   const pathImagen = path.resolve(__dirname, `../uploads/${type}/${img}`);
+  const pathNoImg = path.resolve(__dirname, '../assets/no-img.jpg');
 
-  if (fs.existsSync(pathImagen)) {
-    res.sendFile(pathImagen);
-  } else {
-    const pathNoImg = path.resolve(__dirname, '../assets/no-img.jpg');
-    res.sendFile(pathNoImg);
-  }
+  fs.existsSync(pathImagen) ? res.sendFile(pathImagen) : res.sendFile(pathNoImg);
 };
 
 module.exports = { getImage };

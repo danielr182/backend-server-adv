@@ -17,6 +17,9 @@ app.use(bodyParser.json());
 // CORS Config
 app.use(cors());
 
+// Frontend app - Turn it on if you need to test the google auth
+// app.use(express.static('public'));
+
 // DB Connection
 dbConnection();
 

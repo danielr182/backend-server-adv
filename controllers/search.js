@@ -52,10 +52,11 @@ const generalSearch = async (req, res) => {
       users,
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       ok: false,
       message: 'Error obtaining data.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };

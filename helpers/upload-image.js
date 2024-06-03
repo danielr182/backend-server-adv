@@ -29,10 +29,11 @@ const uploadByType = async ({ file, type, idType, newFileName: fileName, res: re
           user: updatedUser,
         });
       } catch (err) {
+        console.log(err);
         return response.status(500).json({
           ok: false,
           message: 'Error looking for the user.',
-          errors: err,
+          errors: err.toString(),
         });
       }
       break;
@@ -58,10 +59,11 @@ const uploadByType = async ({ file, type, idType, newFileName: fileName, res: re
           medic: updatedMedic,
         });
       } catch (err) {
+        console.log(err);
         return response.status(500).json({
           ok: false,
           message: 'Error looking for the medic.',
-          errors: err,
+          errors: err.toString(),
         });
       }
       break;
@@ -87,10 +89,11 @@ const uploadByType = async ({ file, type, idType, newFileName: fileName, res: re
           hospital: updatedHospital,
         });
       } catch (err) {
+        console.log(err);
         return response.status(500).json({
           ok: false,
           message: 'Error looking for the hospital.',
-          errors: err,
+          errors: err.toString(),
         });
       }
       break;

@@ -12,7 +12,14 @@ const router = Router();
 // ================================================
 // Login user - Google authentication
 // ================================================
-router.post('/google', googleAuth);
+router.post(
+  '/google',
+  [
+    check('token', 'Token is required').not().isEmpty(),
+    validateFields,
+  ],
+  googleAuth
+);
 
 // ================================================
 // Login user - Normal authentication

@@ -33,10 +33,11 @@ const createUser = async (req, res) => {
       token,
     });
   } catch (err) {
+    console.log(err);
     return res.status(400).json({
       ok: false,
       message: 'Error creating user.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };
@@ -59,10 +60,11 @@ const deleteUser = async (req, res) => {
       message: 'User successfully deleted',
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       ok: false,
       message: 'Error eliminating the user.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };
@@ -80,10 +82,11 @@ const getUsers = async (req, res) => {
       total: counting,
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       ok: false,
       message: 'Error loading users.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };
@@ -126,10 +129,11 @@ const updateUser = async (req, res) => {
       user: updatedUser,
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       ok: false,
       message: 'Error when updating user.',
-      errors: err,
+      errors: err.toString(),
     });
   }
 };
