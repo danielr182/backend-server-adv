@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Google SigIn Demo</title>
+  </head>
+
+  <body>
+    <h1>Google</h1>
+    <div id="buttonDiv"></div>
+
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    <script>
+      const url = 'http://localhost:3001/api/login/google';
+
+      function handleCredentialResponse(response) {
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: response.credential }),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log('From our server: ', data))
+          .catch(console.log);
+      }
+      window.onload = function () {
+        google.accounts.id.initialize({
+          client_id: '621790932068-fsviqi6ag99b3n6d0r9ehf8p5v4rilbn.apps.googleusercontent.com',
+          callback: handleCredentialResponse,
+        });
+        google.accounts.id.renderButton(
+          document.getElementById('buttonDiv'),
+          { theme: 'outline', size: 'large' } // customization attributes
+        );
+        google.accounts.id.prompt(); // also display the One Tap dialog
+      };
+    </script>
+  </body>
+</html>

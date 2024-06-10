@@ -1,14 +1,16 @@
-// Requires
-var express = require('express');
+/* 
+Route: /api 
+*/
+const Router = require('express');
 
-// Inicializar variables
-var app = express();
+// Initialize variables
+const router = Router();
 
-app.get('/', (req, res, next) => {
-    res.status(200).json({
-        ok: true,
-        mensaje: 'Petición realizada correctamente.'
-    });
+router.get('/', (req, res) => {
+  res.status(200).json({
+    ok: true,
+    message: 'Request made correctly.',
+  });
 });
 
-module.exports = app;
+module.exports = router;

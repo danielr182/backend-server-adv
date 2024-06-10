@@ -1,11 +1,18 @@
-var mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-var Schema = mongoose.Schema;
-
-var hospitalSchema = new Schema({
-    nombre: { type: String, required: [true, 'El nombre es necesario'] },
+const HospitalSchema = new Schema(
+  {
+    name: { type: String, required: [true, 'The name is required.'] },
     img: { type: String, required: false },
-    usuario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: [true, 'El id usuario es un campo obligatorio '] }
-}, { collection: 'hospitales' });
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: [true, 'The User ID is a required field.'] },
+  },
+  { collection: 'hospitals' }
+);
 
-module.exports = mongoose.model('Hospital', hospitalSchema);
+HospitalSchema.method('toJSON', function () {
+  const { __v, _id, ...object } = this.toObject();
+  object.uid = _id;
+  return object;
+});
+
+module.exports = model('Hospital', HospitalSchema);
