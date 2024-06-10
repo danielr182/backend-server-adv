@@ -63,7 +63,7 @@ const uploadByType = async ({ file, type, idType, newFileName: fileName, res: re
         } catch (err) {
           console.log('Error deleting the file in the cloud: ', err.toString());
         }
-        const blob = await put(fileName, file.data, {
+        const blob = await put(`medics/${fileName}`, file.data, {
           access: 'public',
         });
         medicFound.img = blob.url;
@@ -101,7 +101,7 @@ const uploadByType = async ({ file, type, idType, newFileName: fileName, res: re
         } catch (err) {
           console.log('Error deleting the file in the cloud: ', err.toString());
         }
-        const blob = await put(fileName, file.data, {
+        const blob = await put(`hospitals/${fileName}`, file.data, {
           access: 'public',
         });
         hospitalFound.img = blob.url;
