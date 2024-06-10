@@ -32,7 +32,7 @@ const uploadByType = async ({ file, type, idType, newFileName: fileName, res: re
         console.log(err);
         return response.status(500).json({
           ok: false,
-          message: 'Error looking for the user.',
+          message: 'Error updating the user.',
           errors: err.toString(),
         });
       }
@@ -62,7 +62,7 @@ const uploadByType = async ({ file, type, idType, newFileName: fileName, res: re
         console.log(err);
         return response.status(500).json({
           ok: false,
-          message: 'Error looking for the medic.',
+          message: 'Error updating the medic.',
           errors: err.toString(),
         });
       }
@@ -92,7 +92,7 @@ const uploadByType = async ({ file, type, idType, newFileName: fileName, res: re
         console.log(err);
         return response.status(500).json({
           ok: false,
-          message: 'Error looking for the hospital.',
+          message: 'Error updating the hospital.',
           errors: err.toString(),
         });
       }
@@ -114,6 +114,7 @@ const moveFileToServerPath = (file, type, fileName) => {
 };
 
 const removePreviousFile = (type, fileName) => {
+  if (!fileName) return;
   const previousPath = `./uploads/${type}/${fileName}`;
   // If it exists, remove the previous file
   if (fs.existsSync(previousPath)) {

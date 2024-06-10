@@ -5,7 +5,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { createUser, deleteUser, getUsers, updateUser } = require('../controllers/user');
 const { validateFields } = require('../middlewares/validate-fields');
-const { verifyJWT } = require('../middlewares/authentication');
+const { verifyJWT, validateRole, validateRoleAndSameUser } = require('../middlewares/authentication');
 
 // Initialize variables
 const router = Router();
@@ -21,7 +21,6 @@ router.get('/', verifyJWT, getUsers);
 router.post(
   '/',
   [
-    verifyJWT,
     check('name', 'Name is required').not().isEmpty(),
     check('password', 'Password is required').not().isEmpty(),
     check('email', 'Enter a valid email').isEmail(),
@@ -37,6 +36,7 @@ router.put(
   '/:id',
   [
     verifyJWT,
+    validateRoleAndSameUser,
     check('name', 'Name is required').not().isEmpty(),
     check('role', 'Role is required').not().isEmpty(),
     check('email', 'Enter a valid email').isEmail(),
@@ -48,6 +48,6 @@ router.put(
 // ================================================
 // Delete a user by ID
 // ================================================
-router.delete('/:id', verifyJWT, deleteUser);
+router.delete('/:id', [verifyJWT, validateRole], deleteUser);
 
 module.exports = router;

@@ -1,8 +1,9 @@
 const { Schema, model } = require('mongoose');
+const { roles } = require('../constants/roles');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const validRoles = {
-  values: ['ADMIN_ROLE', 'USER_ROLE'],
+  values: Object.values(roles),
   message: '{VALUE} is not a allowed role.',
 };
 
@@ -12,7 +13,7 @@ const UserSchema = new Schema(
     email: { type: String, unique: true, required: [true, 'The email is required.'] },
     password: { type: String, required: [true, 'The password is required.'] },
     img: { type: String, required: false },
-    role: { type: String, required: true, default: 'USER_ROLE', enum: validRoles },
+    role: { type: String, required: true, default: roles.user, enum: validRoles },
     google: { type: Boolean, default: false },
   },
   { collection: 'users' }

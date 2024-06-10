@@ -16,7 +16,12 @@ const MedicSchema = new Schema(
 
 MedicSchema.method('toJSON', function () {
   const { __v, _id, ...object } = this.toObject();
-  object.id = _id;
+  object.uid = _id;
+  if (object.hospital._id) {
+    const {_id, ...hospital} = object.hospital;
+    hospital.uid = _id;
+    object.hospital = hospital;
+  }
   return object;
 });
 

@@ -3,7 +3,7 @@ Route: /api/medic
 */
 const Router = require('express');
 const { check } = require('express-validator');
-const { createMedic, deleteMedic, getMedics, updateMedic } = require('../controllers/medic');
+const { createMedic, deleteMedic, getMedics, getMedicById, updateMedic } = require('../controllers/medic');
 const { validateFields } = require('../middlewares/validate-fields');
 const { verifyJWT } = require('../middlewares/authentication');
 
@@ -14,6 +14,11 @@ const router = Router();
 // Get all medics
 // ================================================
 router.get('/', verifyJWT, getMedics);
+
+// ================================================
+// Get medic by ID
+// ================================================
+router.get('/:id', verifyJWT, getMedicById);
 
 // ================================================
 // Create a medic

@@ -3,8 +3,9 @@ Route: /api/login
 */
 const Router = require('express');
 const { check } = require('express-validator');
-const { googleAuth, userPassAuth } = require('../controllers/login');
+const { googleAuth, userPassAuth, renewToken } = require('../controllers/login');
 const { validateFields } = require('../middlewares/validate-fields');
+const { verifyJWT } = require('../middlewares/authentication');
 
 // Initialize variables
 const router = Router();
@@ -32,6 +33,15 @@ router.post(
     validateFields,
   ],
   userPassAuth
+);
+
+// ================================================
+// Login user - Normal authentication
+// ================================================
+router.get(
+  '/renew',
+  verifyJWT,
+  renewToken
 );
 
 module.exports = router;

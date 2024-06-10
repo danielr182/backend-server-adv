@@ -8,6 +8,6 @@ const { verifyJWT } = require('../middlewares/authentication');
 // Initialize variables
 const router = Router();
 
-router.get('/:type/:img', verifyJWT, getImage);
+router.get('/:type/:img', getImage);
 
 module.exports = router;

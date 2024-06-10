@@ -36,7 +36,8 @@ const collectionSearch = async (req, res) => {
 
 const generalSearch = async (req, res) => {
   const search = req.params.search;
-  const regex = new RegExp(search, 'i');
+  const escapedSearch = escapeRegExp(search);
+  const regex = new RegExp(escapedSearch, 'i');
 
   try {
     const [hospitals, medics, users] = await Promise.all([
@@ -87,12 +88,16 @@ const searchMedics = (regex) => {
 const searchUsers = (regex) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const users = await User.find({}, 'name email role').or([{ name: regex }, { email: regex }]);
+      const users = await User.find({}, 'name email role google img').or([{ name: regex }, { email: regex }]);
       resolve(users);
     } catch (err) {
       reject('Error obtaining users', err);
     }
   });
 };
+
+const escapeRegExp = (string) => {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 module.exports = { collectionSearch, generalSearch };

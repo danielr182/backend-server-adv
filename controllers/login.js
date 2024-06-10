@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { generateJWT } = require('../helpers/jwt');
 const { googleVerify } = require('../helpers/google-verify');
+const { getMenuFront } = require('../helpers/menu-front');
 const User = require('../models/user');
 
 const googleAuth = async (req, res) => {
@@ -29,6 +30,7 @@ const googleAuth = async (req, res) => {
       ok: true,
       token: jwt,
       user,
+      menu: getMenuFront(dbUser.role),
     });
   } catch (err) {
     console.log(err);
@@ -60,13 +62,14 @@ const userPassAuth = async (req, res) => {
       });
     }
 
-    // // Create token
+    // Create token
     const jwt = await generateJWT(dbUser.id);
 
     res.status(200).json({
       ok: true,
       token: jwt,
       user: dbUser,
+      menu: getMenuFront(dbUser.role),
     });
   } catch (err) {
     console.log(err);
@@ -78,4 +81,18 @@ const userPassAuth = async (req, res) => {
   }
 };
 
-module.exports = { googleAuth, userPassAuth };
+const renewToken = async (req, res = response) => {
+  const uid = req.uid;
+
+  const token = await generateJWT(uid);
+  const user = await User.findById(uid);
+
+  res.status(200).json({
+    ok: true,
+    token,
+    user,
+    menu: getMenuFront(user.role),
+  });
+};
+
+module.exports = { googleAuth, userPassAuth, renewToken };

@@ -46,6 +46,14 @@ const deleteUser = async (req, res) => {
   const id = req.params.id;
 
   try {
+    if (req.uid === id) {
+      return res.status(400).json({
+        ok: false,
+        message: 'The user cannot be deleted: You cannot erase yourself.',
+        errors: { message: 'custom message' },
+      });
+    }
+
     const userDeleted = await User.findByIdAndDelete(id);
     if (!userDeleted) {
       return res.status(400).json({
@@ -71,7 +79,7 @@ const deleteUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   const from = Number(req.query.from) || 0;
-  const limit = Number(req.query.limit) || 5;
+  const limit = Number(req.query.limit) === -1 ? null : Number(req.query.limit) || 5;
 
   try {
     const [users, counting] = await Promise.all([User.find({}, null, { limit, skip: from }), User.countDocuments({})]);
@@ -114,6 +122,14 @@ const updateUser = async (req, res) => {
           errors: 'custom error',
         });
       }
+    }
+
+    if (userFound.google && userFound.email !== body.email) {
+      return res.status(400).json({
+        ok: false,
+        message: 'Google users cannot change their email.',
+        errors: 'custom error',
+      });
     }
 
     delete userFound.password;

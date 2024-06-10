@@ -66,7 +66,7 @@ const deleteMedic = async (req, res) => {
 
 const getMedics = async (req, res) => {
   const from = Number(req.query.from) || 0;
-  const limit = Number(req.query.limit) || 5;
+  const limit = Number(req.query.limit) === -1 ? null : Number(req.query.limit) || 5;
 
   try {
     const [medics, counting] = await Promise.all([
@@ -84,6 +84,33 @@ const getMedics = async (req, res) => {
     return res.status(500).json({
       ok: false,
       message: 'Error loading medics.',
+      errors: err.toString(),
+    });
+  }
+};
+
+const getMedicById = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const medicFound = await Medic.findById(id).populate('user', 'name img').populate('hospital', 'name img');
+    if (!medicFound) {
+      return res.status(400).json({
+        ok: false,
+        message: 'The medic with the Id ' + id + ' does not exist.',
+        errors: { message: 'There is no medic with that Id.' },
+      });
+    }
+
+    res.status(200).json({
+      ok: true,
+      medic: medicFound
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      ok: false,
+      message: 'Error loading the medic.',
       errors: err.toString(),
     });
   }
@@ -131,4 +158,4 @@ const updateMedic = async (req, res) => {
   }
 };
 
-module.exports = { createMedic, deleteMedic, getMedics, updateMedic };
+module.exports = { createMedic, deleteMedic, getMedicById, getMedics, updateMedic };

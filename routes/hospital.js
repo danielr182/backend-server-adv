@@ -3,7 +3,7 @@ Route: /api/hospital
 */
 const Router = require('express');
 const { check } = require('express-validator');
-const { createHospital, deleteHospital, getHospital, updateHospital } = require('../controllers/hospital');
+const { createHospital, deleteHospital, getHospitals, getHospitalById, updateHospital } = require('../controllers/hospital');
 const { validateFields } = require('../middlewares/validate-fields');
 const { verifyJWT } = require('../middlewares/authentication');
 
@@ -13,7 +13,12 @@ const router = Router();
 // ================================================
 // Get all hospitals
 // ================================================
-router.get('/', verifyJWT, getHospital);
+router.get('/', verifyJWT, getHospitals);
+
+// ================================================
+// Get hopsital by ID
+// ================================================
+router.get('/:id', verifyJWT, getHospitalById);
 
 // ================================================
 // Create a hospital

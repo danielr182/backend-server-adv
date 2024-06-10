@@ -64,7 +64,7 @@ const deleteHospital = async (req, res) => {
 
 const getHospitals = async (req, res) => {
   const from = Number(req.query.from) || 0;
-  const limit = Number(req.query.limit) || 5;
+  const limit = Number(req.query.limit) === -1 ? null : Number(req.query.limit) || 5;
 
   try {
     const [hospitals, counting] = await Promise.all([
@@ -82,6 +82,33 @@ const getHospitals = async (req, res) => {
     return res.status(500).json({
       ok: false,
       message: 'Error loading hospitals.',
+      errors: err.toString(),
+    });
+  }
+};
+
+const getHospitalById = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const hospitalFound = await Hospital.findById(id).populate('user', 'name img');
+    if (!hospitalFound) {
+      return res.status(400).json({
+        ok: false,
+        message: 'The hospital with the Id ' + id + ' does not exist.',
+        errors: { message: 'There is no hospital with that Id.' },
+      });
+    }
+
+    res.status(200).json({
+      ok: true,
+      hospital: hospitalFound
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      ok: false,
+      message: 'Error loading the hospital.',
       errors: err.toString(),
     });
   }
@@ -120,4 +147,4 @@ const updateHospital = async (req, res) => {
   }
 };
 
-module.exports = { createHospital, deleteHospital, getHospital: getHospitals, updateHospital };
+module.exports = { createHospital, deleteHospital, getHospitals, getHospitalById, updateHospital };
