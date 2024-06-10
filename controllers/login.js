@@ -30,7 +30,7 @@ const googleAuth = async (req, res) => {
       ok: true,
       token: jwt,
       user,
-      menu: getMenuFront(dbUser.role),
+      menu: getMenuFront(user.role),
     });
   } catch (err) {
     console.log(err);
